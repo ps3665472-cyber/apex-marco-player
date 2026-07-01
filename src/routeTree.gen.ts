@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as Play2DotphpRouteImport } from './routes/play2[.]php'
 import { Route as PlayDotphpRouteImport } from './routes/play[.]php'
 import { Route as IndexRouteImport } from './routes/index'
 
+const Play2DotphpRoute = Play2DotphpRouteImport.update({
+  id: '/play2.php',
+  path: '/play2.php',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayDotphpRoute = PlayDotphpRouteImport.update({
   id: '/play.php',
   path: '/play.php',
@@ -26,31 +32,42 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/play.php': typeof PlayDotphpRoute
+  '/play2.php': typeof Play2DotphpRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/play.php': typeof PlayDotphpRoute
+  '/play2.php': typeof Play2DotphpRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/play.php': typeof PlayDotphpRoute
+  '/play2.php': typeof Play2DotphpRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/play.php'
+  fullPaths: '/' | '/play.php' | '/play2.php'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/play.php'
-  id: '__root__' | '/' | '/play.php'
+  to: '/' | '/play.php' | '/play2.php'
+  id: '__root__' | '/' | '/play.php' | '/play2.php'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PlayDotphpRoute: typeof PlayDotphpRoute
+  Play2DotphpRoute: typeof Play2DotphpRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/play2.php': {
+      id: '/play2.php'
+      path: '/play2.php'
+      fullPath: '/play2.php'
+      preLoaderRoute: typeof Play2DotphpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play.php': {
       id: '/play.php'
       path: '/play.php'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlayDotphpRoute: PlayDotphpRoute,
+  Play2DotphpRoute: Play2DotphpRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -8,6 +8,14 @@ const OLD_LOGO_RE =
 // Order matters — longer/more specific patterns first.
 const TEXT_REPLACEMENTS: Array<[RegExp, string]> = [
   [OLD_LOGO_RE, NEW_LOGO],
+  // Swap batches JSON source to our own proxied endpoint (rarestudy-backed).
+  [
+    /https?:\/\/semfy-gros\.github\.io\/batches\/batcha\.json/g,
+    "/api/batches.json",
+  ],
+  // Telegram channel/group link replacement.
+  [/t\.me\/\+DGqOIShXqlYwMzhl/g, "t.me/official_marco_22"],
+  [/t\.me\/mee_ratna/g, "t.me/official_marco_22"],
   [/Ratna\s*Bhai/gi, "Mr. Marco"],
   [/RatnaBhai/gi, "Mr. Marco"],
   [/Study\s*Ratna/g, "ApexLecture"],

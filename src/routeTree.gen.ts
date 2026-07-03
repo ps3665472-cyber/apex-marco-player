@@ -9,10 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as Play2DotphpRouteImport } from './routes/play2[.]php'
+import { Route as PlayDotphpRouteImport } from './routes/play[.]php'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiBatchesDotjsonRouteImport } from './routes/api/batches[.]json'
 
+const Play2DotphpRoute = Play2DotphpRouteImport.update({
+  id: '/play2.php',
+  path: '/play2.php',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayDotphpRoute = PlayDotphpRouteImport.update({
+  id: '/play.php',
+  path: '/play.php',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SplatRoute = SplatRouteImport.update({
   id: '/$',
   path: '/$',
@@ -32,35 +44,57 @@ const ApiBatchesDotjsonRoute = ApiBatchesDotjsonRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/play.php': typeof PlayDotphpRoute
+  '/play2.php': typeof Play2DotphpRoute
   '/api/batches.json': typeof ApiBatchesDotjsonRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/play.php': typeof PlayDotphpRoute
+  '/play2.php': typeof Play2DotphpRoute
   '/api/batches.json': typeof ApiBatchesDotjsonRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/play.php': typeof PlayDotphpRoute
+  '/play2.php': typeof Play2DotphpRoute
   '/api/batches.json': typeof ApiBatchesDotjsonRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$' | '/api/batches.json'
+  fullPaths: '/' | '/$' | '/play.php' | '/play2.php' | '/api/batches.json'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$' | '/api/batches.json'
-  id: '__root__' | '/' | '/$' | '/api/batches.json'
+  to: '/' | '/$' | '/play.php' | '/play2.php' | '/api/batches.json'
+  id: '__root__' | '/' | '/$' | '/play.php' | '/play2.php' | '/api/batches.json'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
+  PlayDotphpRoute: typeof PlayDotphpRoute
+  Play2DotphpRoute: typeof Play2DotphpRoute
   ApiBatchesDotjsonRoute: typeof ApiBatchesDotjsonRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/play2.php': {
+      id: '/play2.php'
+      path: '/play2.php'
+      fullPath: '/play2.php'
+      preLoaderRoute: typeof Play2DotphpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play.php': {
+      id: '/play.php'
+      path: '/play.php'
+      fullPath: '/play.php'
+      preLoaderRoute: typeof PlayDotphpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$': {
       id: '/$'
       path: '/$'
@@ -88,6 +122,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
+  PlayDotphpRoute: PlayDotphpRoute,
+  Play2DotphpRoute: Play2DotphpRoute,
   ApiBatchesDotjsonRoute: ApiBatchesDotjsonRoute,
 }
 export const routeTree = rootRouteImport

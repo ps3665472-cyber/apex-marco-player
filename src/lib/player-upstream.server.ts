@@ -8,7 +8,9 @@ export interface UpstreamConfig {
   prefix: string; // path prefix on our domain, e.g. /vidcloud
 }
 
-const NAV_LOCK_SCRIPT = String.raw`<script>
+const WATERMARK_INJECT = String.raw`<style>#__apex_wm{position:fixed;right:10px;bottom:10px;z-index:2147483647;pointer-events:none;text-align:right;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.8)}#__apex_wm .m{color:rgba(255,255,255,.85);font-weight:700;font-size:14px;letter-spacing:.3px}#__apex_wm .s{color:rgba(255,255,255,.65);font-size:10px;margin-top:2px}#__apex_wm.fs{position:fixed}</style><script>(function(){function mount(){if(document.getElementById('__apex_wm'))return;var d=document.createElement('div');d.id='__apex_wm';d.innerHTML='<div class="m">ApexLectures</div><div class="s">Powered by MARCO</div>';(document.body||document.documentElement).appendChild(d);}function reattach(){var el=document.getElementById('__apex_wm');var fs=document.fullscreenElement||document.webkitFullscreenElement;if(fs&&el&&el.parentNode!==fs){try{fs.appendChild(el);}catch(e){}}else if(!fs&&el&&el.parentNode!==document.body){try{document.body.appendChild(el);}catch(e){}}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',mount);}else{mount();}document.addEventListener('fullscreenchange',reattach);document.addEventListener('webkitfullscreenchange',reattach);setInterval(function(){mount();reattach();},1000);})();</script>
+<script>
+
 (function(){
   try {
     // Kill window.open so player cannot spawn new tabs.

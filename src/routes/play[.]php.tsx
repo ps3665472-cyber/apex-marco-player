@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-const WATERMARK = `<div class="wm"><div class="wm-main">ApexLectures</div><div class="wm-sub">Powered by MARCO</div></div>`;
-const WATERMARK_CSS = `.wm{position:fixed;right:10px;bottom:10px;z-index:2147483647;pointer-events:none;text-align:right;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.8)}.wm-main{color:rgba(255,255,255,.85);font-weight:700;font-size:14px;letter-spacing:.3px}.wm-sub{color:rgba(255,255,255,.65);font-size:10px;margin-top:2px}`;
+const WATERMARK = ``;
+const WATERMARK_CSS = ``;
 
 export const Route = createFileRoute("/play.php")({
   server: {

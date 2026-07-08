@@ -92,8 +92,11 @@ function rewriteText(body: string, cfg: UpstreamConfig): string {
   // Rewrite protocol-relative //host references too.
   const proto = new RegExp(`//${cfg.host.replace(/\./g, "\\.")}`, "g");
   out = out.replace(proto, cfg.prefix);
+  if (/<\/head>/i.test(out)) {
+    out = out.replace(/<\/head>/i, `${ASK_AI_HIDE}</head>`);
+  }
   if (/<\/body>/i.test(out)) {
-    out = out.replace(/<\/body>/i, `${ASK_AI_HIDE}${NAV_LOCK_SCRIPT}</body>`);
+    out = out.replace(/<\/body>/i, `${NAV_LOCK_SCRIPT}</body>`);
   }
   return out;
 }

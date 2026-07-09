@@ -329,6 +329,13 @@ export async function proxyUpstream(
   respHeaders.delete("x-frame-options");
   respHeaders.delete("content-security-policy");
 
+  // Aggressive caching for static assets → repeat player loads are near-instant.
+  const pathLower = url.pathname.toLowerCase();
+  const isStatic = /\.(js|css|woff2?|ttf|otf|eot|png|jpe?g|gif|svg|webp|ico|mp4|ts|m4s|jpg)(\?|$)/i.test(pathLower);
+  if (isStatic && !respHeaders.has("cache-control")) {
+    respHeaders.set("cache-control", "public, max-age=86400, immutable");
+  }
+
   const location = upstream.headers.get("location");
   if (location) {
     respHeaders.set(

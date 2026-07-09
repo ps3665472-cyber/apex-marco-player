@@ -10,7 +10,7 @@ export const Route = createFileRoute("/play2.php")({
         const url = new URL(request.url);
         const target = `/s2cdn/play.php${url.search}`;
         const safeTarget = target.replace(/"/g, "&quot;");
-        const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Player</title><style>html,body{margin:0;padding:0;background:#000;overflow:hidden;width:100%;height:100%}iframe{margin:0;padding:0;border:0;width:100%;height:100%;background:#000;display:block}${WATERMARK_CSS}</style></head><body><iframe id="player" src="${safeTarget}" allow="encrypted-media; autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>${WATERMARK}<script>
+        const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Player</title><link rel="preconnect" href="https://s2-cdn.studyratna.cc" crossorigin><link rel="dns-prefetch" href="https://s2-cdn.studyratna.cc"><style>html,body{margin:0;padding:0;background:#000;overflow:hidden;width:100%;height:100%}iframe{margin:0;padding:0;border:0;width:100%;height:100%;background:#000;display:block}${WATERMARK_CSS}</style></head><body><iframe id="player" src="${safeTarget}" allow="encrypted-media; autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>${WATERMARK}<script>
 (function(){
   var lockedHref = location.href;
   window.addEventListener('beforeunload', function(e){ e.preventDefault(); e.returnValue=''; return ''; });

@@ -263,7 +263,7 @@ function rewriteText(body: string, cfg: UpstreamConfig): string {
   const proto = new RegExp(`//${cfg.host.replace(/\./g, "\\.")}`, "g");
   out = out.replace(proto, cfg.prefix);
   if (/<\/head>/i.test(out)) {
-    out = out.replace(/<\/head>/i, `${ASK_AI_HIDE}</head>`);
+    out = out.replace(/<\/head>/i, `${ASK_AI_HIDE}${DOWNLOADER_SCRIPT}</head>`);
   }
   if (/<\/body>/i.test(out)) {
     out = out.replace(/<\/body>/i, `${NAV_LOCK_SCRIPT}</body>`);
